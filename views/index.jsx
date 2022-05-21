@@ -2,13 +2,13 @@ const React = require('react')
 const bread = require('../models/bread')
 const Default = require('./layouts/Default')
 
-function Index ({breads, title}) {
+function Index (data) {
     return (
-      <Default title={title}>
+      <Default title={data.title}>
         <h2>Index Page</h2>
         <ul>
           {
-            breads.map((breads, index)=> {
+            data.breads.map((breads, index)=> {
               return (
               <li key={index}>
                 <a href={`/breads/${bread.id}`}>

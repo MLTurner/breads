@@ -1,5 +1,4 @@
 const express = require('express')
-const Bread = require('../models/bread')
 const bread = require('../models/bread')
 const Baker = require('../models/baker.js')
 const breads = express.Router()
@@ -14,17 +13,20 @@ breads.get('/new', (req, res) => {
       })
 })
 
-
-// INDEX
+//INDEX
 breads.get('/', (req, res) => {
-  res.render('Index',
-    {
-      breads: bread,
-      title: 'Index Page'
-    }
-  )
-// res.send(Bread)
+  bread.find()
+      .then(foundBreads => {
+          console.log(foundBreads)
+      })
+  // res.render('index',
+  //   {
+  //     breads: Bread,
+  //     title: 'Index Page'
+  //   }
+  // )
 })
+
 
 // NEW
 breads.get('/new', (req, res) => {
@@ -41,13 +43,13 @@ breads.post('/', (req, res) => {
   } else {
     req.body.hasGluten = false
   }
-  Bread.create(req.body)
+  bread.create(req.body)
   res.redirect('/breads')
 })
 
 //Creating a seed route
 breads.get('/data/seed', (req, res) => {
-  Bread.insertMany([
+  bread.insertMany([
     {
       name: 'Rye',
       hasGluten: true,
@@ -78,7 +80,7 @@ breads.get('/data/seed', (req, res) => {
 
 // DELETE
 breads.delete('/:id', (req, res) => {
-  Bread.findByIdAndDelete(req.params.id) 
+  bread.findByIdAndDelete(req.params.id) 
     .then(deletedBread => { 
       res.status(303).redirect('/breads')
     })
@@ -89,7 +91,7 @@ breads.delete('/:id', (req, res) => {
 breads.get('/:id/edit', (req, res) => {
   Baker.find()
     .then(foundBakers => {
-      Bread.findById(req.params.id) 
+      bread.findById(req.params.id) 
         .then(foundBread => { 
         res.render('edit', {
           bread: foundBread,
@@ -102,7 +104,7 @@ breads.get('/:id/edit', (req, res) => {
 
 // SHOW
 breads.get('/:id', (req, res) => {
-  Bread.findById(req.params.id)
+  bread.findById(req.params.id)
       .populate('baker')
       .then(foundBread => {
         const bakedBy = foundBread.getBakedBy() 
@@ -124,7 +126,7 @@ breads.put('/:arrayIndex', (req, res) => {
   } else {
     req.body.hasGluten = false
   }
-  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  bread.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(updatedBread => {
       console.log(updatedBread)
       res.redirect(`/breads/${req.params.id}`)

@@ -36,7 +36,7 @@ function Edit ({bread, bakers}) {
             name="hasGluten"
             id="hasGluten"
             defaultChecked
-          />
+          /> 
           <br />
           <input type="submit"/>
         </form>

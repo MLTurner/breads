@@ -15,22 +15,30 @@ breads.get('/new', (req, res) => {
 
 //INDEX
 breads.get('/', (req, res) => {
-  bread.find()
+  Baker.find()
+    .then(foundBakers => {
+      bread.find()
       .then(foundBreads => {
-          console.log(foundBreads)
+        res.render('index', {
+          breads: foundBreads,
+          bakers: foundBakers,
+          title: 'Index Page'
+        })
       })
+  })
+})
   // res.render('index',
   //   {
   //     breads: Bread,
   //     title: 'Index Page'
   //   }
   // )
-})
+
 
 
 // NEW
 breads.get('/new', (req, res) => {
-  res.render('New')
+  res.render('new')
 })
 
 // CREATE
@@ -107,8 +115,6 @@ breads.get('/:id', (req, res) => {
   bread.findById(req.params.id)
       .populate('baker')
       .then(foundBread => {
-        const bakedBy = foundBread.getBakedBy() 
-        console.log(bakedBy)
         res.render('show', {
             bread: foundBread
         })

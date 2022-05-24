@@ -3,7 +3,7 @@ const baker_seed = require('../models/baker_seed')
 const bread = require('../models/bread')
 const Default = require('./layouts/Default')
 
-function Index (data) {
+function Index ({breads, bakers, title}) {
     return (
       <Default title={data.title}>
         <h2>Index Page</h2>
@@ -12,8 +12,8 @@ function Index (data) {
           {
             bakers.map((baker) => {
               return (
-                <li key={baker.id}>
-                  <a href={`/bakers/${baker.id}`}>{baker.name}</a>
+                <li key={baker._id}>
+                  <a href={`/bakers/${baker._id}`}>{baker.name}</a>
                 </li>
               )
             })
@@ -24,8 +24,8 @@ function Index (data) {
           {
             data.breads.map((breads, index)=> {
               return (
-              <li key={index}>
-                <a href={`/breads/${bread.id}`}>
+              <li key={bread._id}>
+                <a href={`/breads/${bread._id}`}>
                   {bread.name}
                 </a>
               </li>
@@ -41,3 +41,4 @@ function Index (data) {
 }
 
 module.exports = Index
+
